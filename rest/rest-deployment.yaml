@@ -1,0 +1,28 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: demucs-rest
+spec:
+  selector:
+    matchLabels:
+      app: demucs-rest
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: demucs-rest
+    spec:
+      containers:
+      - name: demucs-rest
+        image: nimi3/demucs-rest:latest
+        env:
+        - name: REDISTOGO_URL
+          value: redis.default
+        - name: MINIOTOGO_HOST
+          value: "minio.default:9000"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 500Mi
+        ports:
+        - containerPort: 5000
